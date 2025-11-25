@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import SignupForm from './components/SignupForm';
+import LoginForm from './components/LoginForm';
+import ForgotPasswordForm from './components/ForgotPasswordForm';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [mode, setMode] = useState('login');
+
+  const renderForm = () => {
+    switch (mode) {
+      case 'signup':
+        return <SignupForm onSwitchToLogin={() => setMode('login')} />;
+      case 'forgot':
+        return <ForgotPasswordForm onSwitchToLogin={() => setMode('login')} />;
+      case 'login':
+      default:
+        return (
+          <LoginForm
+            onSwitchToSignup={() => setMode('signup')}
+            onSwitchToForgot={() => setMode('forgot')}
+          />
+        );
+    }
+  };
+
+  return <div className="app-shell">{renderForm()}</div>;
 }
 
 export default App;
